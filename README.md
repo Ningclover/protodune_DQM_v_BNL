@@ -4,6 +4,12 @@ This is a demo for protoDUNE DQM.
 
 Initial framework is from Gabriela Vitti Stenico 
 
+## Usage
+```
+lar -n1 -c standard_reco_stage1_protodunehd_keepup.fcl <input.hdf5>
+root -l -b -q 'convert_artroot_DQM_2.C("reco_stage1_artroot.root")'
+```
+
 ## convert_artroot_DQM_2.C 
 
 The input file is artROOT file from larsoft with tag *reco_stage1*.
