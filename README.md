@@ -26,7 +26,7 @@ I am keep running a DQM page on dunegpvm11.
 If you are interested, you can see it by:
 
   
-  ssh -N -f -L localhost:8050:localhost:8050 <username>@dunegpvm11.fnal.gov
+  ssh -N -f -L localhost:8050:localhost:8050 \<username\>@dunegpvm11.fnal.gov
   
   
   http://127.0.0.1:8050/
