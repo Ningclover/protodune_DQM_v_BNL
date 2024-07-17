@@ -36,3 +36,11 @@ If you are interested, you can see it by:
   
   http://127.0.0.1:8050/
   ```
+
+## processdata_loop.sh
+
+A script to process a list of artROOT file on *reco_stage1*
+
+*list.dat*: should contain a list of reco_stage1 artROOT files.
+
+*outpath*: where you want to store the output plots.
