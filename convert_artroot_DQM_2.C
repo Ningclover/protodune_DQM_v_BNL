@@ -4,10 +4,11 @@ using namespace art;
 using namespace std;
 using namespace std::chrono;
 
-void convert_artroot_DQM_2(std::string const &filename = "../ProcessData/np04hd_raw_run027980_0663_dataflow3_datawriter_0_20240711T212207_reco_stage1.root")
+void convert_artroot_DQM_2(std::string const &filename = "../ProcessData/np04hd_raw_run027980_0663_dataflow3_datawriter_0_20240711T212207_reco_stage1.root", TString outpath="/nashome/x/xning/Pictures/debug/")
 {
     gStyle->SetOptStat(0);
     gStyle->SetPalette(kLightTemperature);
+    outname=outpath;
     Init();
     InputTag rawdigits_tag{"tpcrawdecoder:daq"};
     InputTag AftNoise_tag{"wclsdatahdfilter:raw"};
@@ -23,7 +24,8 @@ void convert_artroot_DQM_2(std::string const &filename = "../ProcessData/np04hd_
         auto aux = ev.eventAuxiliary();
         std::cout << "processing event: " << aux.run() << "-" << aux.event() << std::endl;
 
-         if (n>5) break;
+ 
+         //if (n>5) break;
 
         // std::cout <<"time  "<<aux.time().value()<<"  "<<aux.time().timeLow()<<"  "<<aux.time().timeHigh()<<std::endl;
         auto t1 = TTimeStamp(aux.time().timeHigh(), aux.time().timeLow());
@@ -119,12 +121,12 @@ void convert_artroot_DQM_2(std::string const &filename = "../ProcessData/np04hd_
             }
         } // end of AftNoise digits
         // cout<<"maxchannel:  "<<maxchannel<<endl;
-        Draw_wf();
+        //Draw_wf();
         Draw_wf_sep();
-        Draw_RMS();
-        Draw_baseline();
-        Draw_fft();
-        Draw_cov();
+        //Draw_RMS();
+        //Draw_baseline();
+        //Draw_fft();
+        //Draw_cov();
         n++;
     }
     // c1->SaveAs("/nashome/x/xning/Pictures/outfile.pdf]");

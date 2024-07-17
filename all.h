@@ -15,6 +15,7 @@
 const int nticks = 5859;
 const int nchans = 10240;
 
+TString outname;
         int runNo;
         int evtNo;
         vector<int> evtNo_list;
@@ -273,7 +274,7 @@ void Draw_RMS(){
         leg->AddEntry(h_rms, " Before Noise Filter", "l");
         leg->AddEntry(h_rms_ANf, "After Noise Filter", "l");
         leg->Draw();
-    	c0->SaveAs(Form("/nashome/x/xning/Pictures/debug/rms_%d_%d.png", runNo, evtNo));
+    	c0->SaveAs(outname+Form("rms_%d_%d.png", runNo, evtNo));
 		h_rms->Delete();
 }
 
@@ -284,14 +285,14 @@ void Draw_wf(){
         h_orig->GetXaxis()->SetTitle("channel number");
         h_orig->GetYaxis()->SetTitle("nticks");
         h_orig->SetTitle("Raw waveform at " + time_string);
-        c0->SaveAs(Form("/nashome/x/xning/Pictures/debug/raw_%d_%d.png", runNo, evtNo));
+        c0->SaveAs(outname+Form("raw_%d_%d.png", runNo, evtNo));
 
         h_orig_ANf->Draw("colz");
         h_orig_ANf->GetZaxis()->SetRangeUser(-150, 150);
         h_orig_ANf->GetXaxis()->SetTitle("channel number");
         h_orig_ANf->GetYaxis()->SetTitle("nticks");
         h_orig_ANf->SetTitle("After Nf at " + time_string);
-        c0->SaveAs(Form("/nashome/x/xning/Pictures/debug/raw_ANf_%d_%d.png", runNo, evtNo));
+        c0->SaveAs(outname+Form("raw_ANf_%d_%d.png", runNo, evtNo));
 }
 
 void Draw_wf_sep(){
@@ -302,14 +303,14 @@ void Draw_wf_sep(){
             h_orig_sep[i][j]->GetXaxis()->SetTitle("channel number");
             h_orig_sep[i][j]->GetYaxis()->SetTitle("nticks");
             h_orig_sep[i][j]->SetTitle(Form("Raw waveform APA%d_%s_%d_%d ",APA_number[i],plane_name[j], runNo, evtNo));
-            c0->SaveAs(Form("/nashome/x/xning/Pictures/debug/raw_apa%d_%s_%d_%d.png",APA_number[i],plane_name[j], runNo, evtNo));
+            c0->SaveAs(outname+Form("raw_apa%d_%s_%d_%d.png",APA_number[i],plane_name[j], runNo, evtNo));
 
             h_orig_ANf_sep[i][j]->Draw("colz");
             h_orig_ANf_sep[i][j]->GetZaxis()->SetRangeUser(-150, 150);
             h_orig_ANf_sep[i][j]->GetXaxis()->SetTitle("channel number");
             h_orig_ANf_sep[i][j]->GetYaxis()->SetTitle("nticks");
             h_orig_ANf_sep[i][j]->SetTitle(Form("Raw waveform ANf APA%d_%s_%d_%d ",APA_number[i],plane_name[j], runNo, evtNo));
-            c0->SaveAs(Form("/nashome/x/xning/Pictures/debug/raw_ANf_apa%d_%s_%d_%d.png",APA_number[i],plane_name[j], runNo, evtNo));
+            c0->SaveAs(outname+Form("raw_ANf_apa%d_%s_%d_%d.png",APA_number[i],plane_name[j], runNo, evtNo));
         } 
 		for(int i=0;i<4;i++)
 			for(int j=2;j<3;j++){
@@ -318,20 +319,20 @@ void Draw_wf_sep(){
             h_orig_sep[i][j]->GetXaxis()->SetTitle("channel number");
             h_orig_sep[i][j]->GetYaxis()->SetTitle("nticks");
             h_orig_sep[i][j]->SetTitle(Form("Raw waveform APA%d_%s_%d_%d ",APA_number[i],plane_name[j], runNo, evtNo));
-            c0->SaveAs(Form("/nashome/x/xning/Pictures/debug/raw_apa%d_%s_%d_%d.png",APA_number[i],plane_name[j], runNo, evtNo));
+            c0->SaveAs(outname+Form("raw_apa%d_%s_%d_%d.png",APA_number[i],plane_name[j], runNo, evtNo));
 
             h_orig_ANf_sep[i][j]->Draw("colz");
             h_orig_ANf_sep[i][j]->GetZaxis()->SetRangeUser(0, 400);
             h_orig_ANf_sep[i][j]->GetXaxis()->SetTitle("channel number");
             h_orig_ANf_sep[i][j]->GetYaxis()->SetTitle("nticks");
             h_orig_ANf_sep[i][j]->SetTitle(Form("Raw waveform ANf APA%d_%s_%d_%d ",APA_number[i],plane_name[j], runNo, evtNo));
-            c0->SaveAs(Form("/nashome/x/xning/Pictures/debug/raw_ANf_apa%d_%s_%d_%d.png",APA_number[i],plane_name[j], runNo, evtNo));
+            c0->SaveAs(outname+Form("raw_ANf_apa%d_%s_%d_%d.png",APA_number[i],plane_name[j], runNo, evtNo));
 		}
 }
 
 void Draw_baseline(){
     h_baseline->Draw();
-    c0->SaveAs(Form("/nashome/x/xning/Pictures/debug/baseline_%d_%d.png", runNo, evtNo));
+    c0->SaveAs(outname+Form("baseline_%d_%d.png", runNo, evtNo));
 }
 
 void Draw_fft(){
@@ -349,7 +350,7 @@ void Draw_fft(){
                 leg->AddEntry(hfft_ANf[0][0], "After Noise Filter", "l");
             }
             leg->Draw();
-            c0->SaveAs(Form("/nashome/x/xning/Pictures/debug/fft%d%s_%d_%d.png",APA_number[i],plane_name[j], runNo, evtNo));
+            c0->SaveAs(outname+Form("fft%d%s_%d_%d.png",APA_number[i],plane_name[j], runNo, evtNo));
     }
 }
 
@@ -361,14 +362,14 @@ void Draw_cov(){
             h_cov[i][j]->GetYaxis()->SetTitle("channel number");
             h_cov[i][j]->GetZaxis()->SetRangeUser(-0.3, 0.5);
             h_cov[i][j]->Draw("colz");
-            c0->SaveAs(Form("/nashome/x/xning/Pictures/debug/covMatx_%d%s_%d_%d.png",APA_number[i],plane_name[j], runNo, evtNo));
+            c0->SaveAs(outname+Form("covMatx_%d%s_%d_%d.png",APA_number[i],plane_name[j], runNo, evtNo));
 
             h_cov_ANf[i][j] = CovMatrix(h_orig_ANf,plane_name[j] , APA_number[i],"ANf");
             h_cov_ANf[i][j]->GetXaxis()->SetTitle("channel number");
             h_cov_ANf[i][j]->GetYaxis()->SetTitle("channel number");
             h_cov_ANf[i][j]->GetZaxis()->SetRangeUser(-0.3, 0.5);
             h_cov_ANf[i][j]->Draw("colz");
-            c0->SaveAs(Form("/nashome/x/xning/Pictures/debug/cov_ANfMatx_%d%s_%d_%d.png",APA_number[i],plane_name[j], runNo, evtNo));
+            c0->SaveAs(outname+Form("cov_ANfMatx_%d%s_%d_%d.png",APA_number[i],plane_name[j], runNo, evtNo));
 
         }
         
