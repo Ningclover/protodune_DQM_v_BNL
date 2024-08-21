@@ -8,7 +8,6 @@ void convert_artroot_DQM_2(std::string const &filename = "../ProcessData/np04hd_
 {
     gStyle->SetOptStat(0);
     gStyle->SetPalette(kLightTemperature);
-    outname=outpath;
     Init();
     InputTag rawdigits_tag{"tpcrawdecoder:daq"};
     InputTag AftNoise_tag{"wclsdatahdfilter:raw"};
@@ -25,7 +24,7 @@ void convert_artroot_DQM_2(std::string const &filename = "../ProcessData/np04hd_
         std::cout << "processing event: " << aux.run() << "-" << aux.event() << std::endl;
 
  
-         //if (n>5) break;
+         if (n>2) break;
 
         // std::cout <<"time  "<<aux.time().value()<<"  "<<aux.time().timeLow()<<"  "<<aux.time().timeHigh()<<std::endl;
         auto t1 = TTimeStamp(aux.time().timeHigh(), aux.time().timeLow());
@@ -34,6 +33,9 @@ void convert_artroot_DQM_2(std::string const &filename = "../ProcessData/np04hd_
 
         runNo = aux.run();
         evtNo = aux.event();
+        TString path = outpath+Form("/run_%d/evt_%d/",runNo,evtNo);
+        gSystem->mkdir(path.Data(),true);
+        outname=path;
         evtNo_list.push_back(evtNo);
         auto const &rawdigits = *ev.getValidHandle<vector<raw::RawDigit>>(rawdigits_tag);
         auto const &AftNoise = *ev.getValidHandle<vector<raw::RawDigit>>(AftNoise_tag);
@@ -121,21 +123,46 @@ void convert_artroot_DQM_2(std::string const &filename = "../ProcessData/np04hd_
             }
         } // end of AftNoise digits
         // cout<<"maxchannel:  "<<maxchannel<<endl;
-        //Draw_wf();
+        Draw_wf();
         Draw_wf_sep();
-        //Draw_RMS();
-        //Draw_baseline();
-        //Draw_fft();
-        //Draw_cov();
+        Draw_RMS();
+        Draw_baseline();
+        Draw_fft();
+        Draw_cov();
         n++;
     }
     // c1->SaveAs("/nashome/x/xning/Pictures/outfile.pdf]");
-    // ofstream fout;
-    // TString name = Form("/nashome/x/xning/runinfo/runNo%d.dat",runNo);
-    // fout.open(name.Data(),std::ios_base::app);
-    // for(auto event : evtNo_list){
-    //     fout<<runNo<<"\t"<<event<<endl;
-    // }
-    // fout.close();
+//     ofstream fout;
+//     //TString name = Form("/nashome/x/xning/runinfo/runNo%d.dat",runNo);
+//     TString name = Form("/nashome/x/xning/runinfo/new/runNo%d.dat",runNo);
+//     fout.open(name.Data(),std::ios_base::app);
+//     //fout.open(name.Data());
+//     for(auto event : evtNo_list){
+//         fout<<runNo<<"\t"<<event<<endl;
+//     }
+//     fout.close();
+
+     ofstream fout2;
+     //TString name = Form("/nashome/x/xning/runinfo/runNo%d.dat",runNo);
+     TString name2 = Form("/exp/dune/data/users/xning/info/runNo%d.dat",runNo);
+     fout2.open(name2.Data(),std::ios_base::app);
+     //fout.open(name.Data());
+     int k=0;
+     for(auto event : evtNo_list){
+         fout2<<runNo<<"\t"<<event<<"\t"<<mean_RMS_AfN[k]<<"\t";
+         cout<<runNo<<"\t"<<event<<"\t"<<mean_RMS_AfN[k]<<"\t";
+            for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 3; j++){
+                    fout2<<noise_spectra_peak_all[k][i][j]<<"\t";
+                    cout<<noise_spectra_peak_all[k][i][j]<<"\t";
+                }
+         
+         
+         fout2<<endl;
+         cout<<endl;
+         k++;
+     }
+     fout2.close();
+
 
 }
